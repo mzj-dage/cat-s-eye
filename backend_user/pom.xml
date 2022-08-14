@@ -8,6 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.mzj.meetingfilm</groupId>
     <artifactId>backend-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend-user</name>
@@ -18,11 +19,10 @@
     </properties>
 
     <dependencies>
-        <!--&lt;!&ndash;自定义的工具模块&ndash;&gt;
         <dependency>
-            <groupId>com.mzj.meetingfilm</groupId>
-            <artifactId>backend-utils</artifactId>
-        </dependency>-->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
 
         <!--自定义的公共数据模块-->
         <dependency>
