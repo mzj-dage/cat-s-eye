@@ -17,12 +17,15 @@
 
     <modules>
         <module>backend_user</module>
+        <module>backend_film</module>
+        <module>backend_hall</module>
+        <module>backend_cinema</module>
+
         <module>backend_common</module>
         <module>backend_utils</module>
         <module>backend_eureka_server</module>
         <module>backend_show</module>
-        <module>backend_film</module>
-        <module>backend_hall</module>
+        <module>backend_api</module>
     </modules>
 
     <properties>
@@ -63,7 +66,15 @@
     </dependencies>
 
     <dependencyManagement>
+
         <dependencies>
+            <!--自定义Feign相关组件-->
+            <dependency>
+                <groupId>com.mzj.meetingfilm</groupId>
+                <artifactId>backend-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- guava支持 -->
             <dependency>
                 <groupId>com.google.guava</groupId>

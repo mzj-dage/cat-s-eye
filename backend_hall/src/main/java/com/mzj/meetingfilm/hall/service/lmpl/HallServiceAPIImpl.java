@@ -1,9 +1,10 @@
 package com.mzj.meetingfilm.hall.service.lmpl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mzj.meetingfilm.apis.film.vo.DescribeFilmRespVO;
+import com.mzj.meetingfilm.hall.apis.FilmFeignApi;
 import com.mzj.meetingfilm.hall.controller.vo.HallsReqVO;
 import com.mzj.meetingfilm.hall.controller.vo.HallSavedReqVO;
 import com.mzj.meetingfilm.hall.controller.vo.HallsRespVO;
@@ -12,11 +13,10 @@ import com.mzj.meetingfilm.hall.dao.entity.MoocHallFilmInfoT;
 import com.mzj.meetingfilm.hall.dao.mapper.MoocFieldTMapper;
 import com.mzj.meetingfilm.hall.dao.mapper.MoocHallFilmInfoTMapper;
 import com.mzj.meetingfilm.hall.service.HallServiceAPI;
+import com.mzj.meetingfilm.utils.common.vo.BaseResponseVO;
 import com.mzj.meetingfilm.utils.exception.CommonServiceException;
 import com.mzj.meetingfilm.utils.util.ToolUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,6 +32,9 @@ public class HallServiceAPIImpl implements HallServiceAPI {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Resource
+    private FilmFeignApi filmFeignApi;
 
     /*@Autowired
     private LoadBalancerClient eurekaClient;*/
@@ -85,22 +88,12 @@ public class HallServiceAPIImpl implements HallServiceAPI {
 
     // 播放厅对应的影片数据， 影片冗余数据， 缓存里有一份
     private MoocHallFilmInfoT describeFilmInfo(String filmId) throws CommonServiceException{
-        /*// GET REGISTER
-        ServiceInstance choose = eurekaClient.choose("film-service");
-        // 组织调用参数
-        String hostname = choose.getHost();
-        int port = choose.getPort();*/
-
-        String uri = "/films/"+filmId;
-
-        String url = "http://film-service"+uri;
-
-        // 通过restTemplate调用影片服务
-        JSONObject baseResponseVO = restTemplate.getForObject(url, JSONObject.class);
-
         // 解析返回值
-        JSONObject dataJson = baseResponseVO.getJSONObject("data");
-
+        BaseResponseVO<DescribeFilmRespVO> responseVO = filmFeignApi.describeFilmById(filmId);
+        DescribeFilmRespVO filmResult = responseVO.getData();
+        if (filmResult.equals(null) || ToolUtils.strIsNull(filmResult.getFilmId())){
+            throw new CommonServiceException(404,"invoke film service result data is null，filmId="+filmId); // 标注一个filmId可以快速判断问题所在，可能是缓存中数据丢失或者数据库中数据丢失
+        }
         // 组织参数
         MoocHallFilmInfoT hallFilmInfo = new MoocHallFilmInfoT();
 
@@ -111,12 +104,12 @@ public class HallServiceAPIImpl implements HallServiceAPI {
 //        "actors":"程勇,曹斌,吕受益,刘思慧",
 //        "imgAddress":"films/238e2dc36beae55a71cabfc14069fe78236351.jpg",
 
-        hallFilmInfo.setFilmId(dataJson.getIntValue("filmId"));
-        hallFilmInfo.setFilmName(dataJson.getString("filmName"));
-        hallFilmInfo.setFilmLength(dataJson.getString("filmLength"));
-        hallFilmInfo.setFilmCats(dataJson.getString("filmCats"));
-        hallFilmInfo.setActors(dataJson.getString("actors"));
-        hallFilmInfo.setImgAddress(dataJson.getString("imgAddress"));
+        hallFilmInfo.setFilmId(ToolUtils.str2Int(filmResult.getFilmId()));
+        hallFilmInfo.setFilmName(filmResult.getFilmName());
+        hallFilmInfo.setFilmLength(filmResult.getFilmLength());
+        hallFilmInfo.setFilmCats(filmResult.getFilmCats());
+        hallFilmInfo.setActors(filmResult.getActors());
+        hallFilmInfo.setImgAddress(filmResult.getImgAddress());
 
         return hallFilmInfo;
     }

@@ -6,6 +6,20 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+#开启feign整合hystrix
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: true
+  compression: #开启解压缩
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
 spring:
   application:
     name: hello-service-consumer

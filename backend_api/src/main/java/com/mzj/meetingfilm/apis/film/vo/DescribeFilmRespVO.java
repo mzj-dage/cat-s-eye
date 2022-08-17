@@ -1,4 +1,4 @@
-package com.mzj.meetingfilm.film.controller.vo;
+package com.mzj.meetingfilm.apis.film.vo;
 
 import lombok.Data;
 
