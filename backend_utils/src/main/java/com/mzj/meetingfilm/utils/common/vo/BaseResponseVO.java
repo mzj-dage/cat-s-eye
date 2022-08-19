@@ -29,6 +29,14 @@ public class BaseResponseVO<M> {
         return responseVO;
     }
 
+    //  未登录异常
+    public static<M> BaseResponseVO noLogin(){
+        BaseResponseVO responseVO = new BaseResponseVO();
+        responseVO.setCode(401);
+        responseVO.setMessage("请登录");
+        return responseVO;
+    }
+
     //出现业务异常
     public static<M> BaseResponseVO serviceException(CommonServiceException commonException){
         BaseResponseVO responseVO = new BaseResponseVO();

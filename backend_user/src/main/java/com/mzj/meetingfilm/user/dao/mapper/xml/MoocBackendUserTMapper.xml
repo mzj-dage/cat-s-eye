@@ -9,4 +9,8 @@
         <result column="user_pwd" property="userPwd" />
         <result column="user_phone" property="userPhone" />
     </resultMap>
+
+    <select id="selectPwtByUsername" resultType="com.mzj.meetingfilm.user.dao.entity.MoocBackendUserT">
+        select user_pwd from mooc_user_t where user_name=#{username}
+    </select>
 </mapper>

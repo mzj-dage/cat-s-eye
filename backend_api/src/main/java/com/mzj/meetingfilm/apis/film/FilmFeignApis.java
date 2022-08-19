@@ -3,7 +3,6 @@ package com.mzj.meetingfilm.apis.film;
 import com.mzj.meetingfilm.apis.film.vo.DescribeFilmRespVO;
 import com.mzj.meetingfilm.utils.common.vo.BaseResponseVO;
 import com.mzj.meetingfilm.utils.exception.CommonServiceException;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

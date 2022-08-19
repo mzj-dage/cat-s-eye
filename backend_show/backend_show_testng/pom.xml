@@ -4,32 +4,43 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.mzj.meetingfilm</groupId>
-        <artifactId>backend-parent</artifactId>
+        <artifactId>backend-show</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.mzj.meetingfilm</groupId>
-    <artifactId>backend-user</artifactId>
+    <artifactId>backend-show-testng</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend-user</name>
-    <description>猫眼后台项目用户模块</description>
+    <name>backend-show-testng</name>
+    <description>meetingfilm后台TestNG框架学习使用</description>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
-
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
 
-        <!--自定义的公共数据模块-->
+        <!--公共工具类支持-->
         <dependency>
             <groupId>com.mzj.meetingfilm</groupId>
-            <artifactId>backend_common</artifactId>
+            <artifactId>backend-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--自动测试报告依赖-->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vimalselvam</groupId>
+            <artifactId>testng-extentsreport</artifactId>
         </dependency>
     </dependencies>
 

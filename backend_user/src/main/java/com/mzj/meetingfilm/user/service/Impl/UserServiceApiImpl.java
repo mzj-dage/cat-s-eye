@@ -19,12 +19,9 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Override
     public String checkUserLogin(String username, String password) throws CommonServiceException {
-        //根据用户名获取用户信息
-        QueryWrapper queryWrapper = new QueryWrapper(); //查询包装对象
-        queryWrapper.eq("user_name",username);
 
         //避免数据出现问题
-        List<MoocBackendUserT> list = userTMapper.selectList(queryWrapper);
+        List<MoocBackendUserT> list = userTMapper.selectPwtByUsername(username);
         MoocBackendUserT user = null;
         if (list!=null && list.size()>0){
             user = list.stream().findFirst().get();

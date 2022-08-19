@@ -34,6 +34,13 @@ public class UserController {
         JwtTokenUtil tokenUtil = new JwtTokenUtil();
         String randomKey = tokenUtil.getRandomKey();
         String token = tokenUtil.generateToken(userId,randomKey);
+        /**
+         * createTime
+         * 过期时间
+         * randomkey - JWT数据签名: AES -> 源数据 + 盐 -> 在token中解析出randomkey -> 数据验签
+         * userid - 用户身份验证
+         */
+
 
         //randomKey token
         Map<String,String> result = new HashMap<>();

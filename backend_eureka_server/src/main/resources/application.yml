@@ -9,7 +9,15 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
   service-url:
-    defaultZone: http://localhost:8761/eureka/
+    defaultZone: http://mzj:mzj123@localhost:8761/eureka/
+
+
+spring:
+  security:
+    user:
+      name: mzj
+      password: mzj123
+      roles: SUPERUSER
 
 logging:
   config: classpath:logback.xml
